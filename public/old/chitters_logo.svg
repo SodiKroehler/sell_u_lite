@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 991.62 510.61">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: Quacker, Quacker;
+        font-size: 324px;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #e95535;
+      }
+
+      .cls-2 {
+        font-family: GillSansMT, 'Gill Sans MT';
+        font-size: 58px;
+      }
+
+      .cls-3 {
+        letter-spacing: 0em;
+      }
+    </style>
+  </defs>
+  <text class="cls-1" transform="translate(0 280.65)"><tspan x="0" y="0">chit</tspan><tspan class="cls-3" x="339.35" y="0">t</tspan><tspan x="397.41" y="0">e</tspan><tspan class="cls-3" x="499.92" y="0">r</tspan><tspan x="591.84" y="0">s</tspan></text>
+  <text class="cls-2" transform="translate(274.45 320.21)"><tspan class="cls-3" x="0" y="0">f</tspan><tspan x="13.93" y="0">or chits and gigs</tspan></text>
+</svg>

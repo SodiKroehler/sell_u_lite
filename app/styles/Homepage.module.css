@@ -1,0 +1,103 @@
+/* Hide scrollbar for Chrome, Safari and Opera */
+.notacontainer::-webkit-scrollbar {
+    display: none;
+}
+
+.notacontainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f6f4e0 ;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    /* background-color: #faf9ef; */
+}
+.header:hover {
+    background-color: #e95535;
+}
+.button {
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #f6f4e0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;  
+}
+.button:clicked {
+    border: 1px solid #e95535
+}
+.playButton {
+    text-decoration: none;
+    object-fit: contain;
+    padding-top: 14px;
+}
+.libButton {
+    text-decoration: none;
+    padding-top: 3px;
+}
+.userButton{
+    padding-top: 10px;
+}
+.shopButton{
+    padding-top: 13px;
+}
+.iconic {
+    object-fit: contain;
+    /* padding: 10px 0; */
+}
+.imageCont{
+    height: 100vh;
+    margin: 16px;
+    object-fit: contain;
+}
+.logoImage{
+    overflow: visible;
+}
+.description {
+    display: block;
+    height: 80vh;
+    background-color: #e95535;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.contact {
+    display: block;
+    height: 30vh;
+    background-color: #161513;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.quote {
+    padding-top: 20vh;
+    font-size: 4em;
+}
+.author {
+    font-size: 1em;
+}
+.email {
+    padding-top: 5vh;
+    color: #f6f4e0;
+    font-size: 1em;
+}
+.address {
+    color: #f6f4e0;
+    font-size: 1em;
+}

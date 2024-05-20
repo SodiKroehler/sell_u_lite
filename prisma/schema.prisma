@@ -1,0 +1,225 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+//npx prisma studio for web portal
+//npx prisma db push after changes
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fieldReference"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  // shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id          String  @id @default(cuid())
+  name        String?
+  displayName String?
+
+  email         String?   @unique
+  emailVerified DateTime?
+
+  image     String?
+  icon      String?
+  vanessaId String?
+  levels    LEVEL[]
+
+  accounts Account[]
+  sessions Session[]
+
+  score Int @default(0)
+
+  //Library
+  library Flo[]
+  scrims  Scrim[]
+
+  Vote        Vote[]
+  roomTokenId String?    @unique
+  roomToken   roomToken?
+
+  pandas Int @default(0)
+  stars  Int @default(0)
+  motes  Int @default(0)
+
+  aFriends Ship[] @relation("dom")
+  bFriends Ship[] @relation("sub")
+
+  chats        Chat[]
+  chatMessages ChatMessage[]
+
+  randomFunStuff String[]
+}
+
+model Ship {
+  id      String   @id @default(cuid())
+  aId     String
+  a       User     @relation("dom", fields: [aId], references: [id])
+  bId     String
+  b       User     @relation("sub", fields: [bId], references: [id])
+  created DateTime
+}
+
+model Scrim {
+  //need some kind of prompt - so that public players can learn enough about the other person to guess
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation(fields: [userId], references: [id])
+  someFacts String //edit me later
+}
+
+model roomToken {
+  id       String   @id @default(cuid())
+  socketId String?
+  roomId   String
+  userId   String   @unique
+  room     Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  created  DateTime @default(now())
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Chit {
+  id    String  @id @default(cuid())
+  name  String?
+  flo   Flo[]
+  link  String
+  gif   String?
+  rooms Room[] //unused
+  votes Vote[] //unused
+  level LEVEL   @default(LIGHT)
+}
+
+//a chit + a prompt = a meme
+// a users "live" collection is populate by Vanessa, and includes memes tailored to them
+//-these memes for now are auto-generated, and each chit can be added 
+//to any collection of which the user is the author, for a cost   
+//  - since these tiles are linked to collections, users can also acquire the collection to use, for a cost
+
+model Flo {
+  id          String   @id @default(cuid())
+  author      String
+  created     DateTime @default(now())
+  name        String
+  chits       Chit[]
+  prompts     Prompt[]
+  rooms       Room[]
+  cost        Float
+  level       LEVEL    @default(LIGHT)
+  subscribers User[]
+}
+
+model Room {
+  id      String   @id @default(cuid())
+  name    String?  @unique
+  created DateTime @default(now())
+  private Boolean  @default(false)
+
+  rdyPlayerCount Int         @default(0)
+  tokens         roomToken[]
+
+  usedCards   Chit[]
+  usedPrompts Prompt[] @relation(name: "used")
+
+  votes         Vote[]
+  votesRecieved Int    @default(0)
+
+  prompt   Prompt? @relation(fields: [promptId], references: [id])
+  promptId Int?
+
+  flos  Flo[]
+  chats Chat[]
+
+  level LEVEL @default(LIGHT)
+}
+
+model Vote {
+  uuid        String  @id @default(cuid())
+  userId      String
+  user        User    @relation(fields: [userId], references: [id])
+  guessedUser String?
+  chitId      String
+  chit        Chit?   @relation(fields: [chitId], references: [id])
+  room        Room?   @relation(fields: [roomId], references: [id])
+  roomId      String?
+}
+
+model Prompt {
+  id            Int     @id @default(autoincrement())
+  prompt        String
+  inUseBy       Room?   @relation(name: "used", fields: [inUseByRoomId], references: [id])
+  inUseByRoomId String?
+  flo           Flo[]
+  room          Room[]
+  level         LEVEL   @default(LIGHT)
+}
+
+model Chat {
+  id       String        @id @default(cuid())
+  messages ChatMessage[]
+
+  members User[]
+
+  roomId String?
+  room   Room?   @relation(fields: [roomId], references: [id])
+  level  LEVEL   @default(LIGHT)
+}
+
+model ChatMessage {
+  id      String @id @default(cuid())
+  message String
+
+  chats Chat[]
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  creationTime DateTime
+
+  level LEVEL @default(LIGHT)
+}
+
+enum LEVEL {
+  LIGHT
+  REGULAR
+  SUPER
+  SUPER_PLUS
+  ULTRA
+}

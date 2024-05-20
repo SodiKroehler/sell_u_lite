@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+
+
+/* // Follows the setup for react-native-web:
+// https://necolas.github.io/react-native-web/docs/setup/#root-element
+// Plus additional React Native scroll and text parity styles for various
+// browsers.
+// Force Next-generated DOM elements to fill their parent's height */
+html,
+body,
+#__next {
+    -webkit-overflow-scrolling: touch;
+}
+
+#__next {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    /* Allows you to scroll below the viewport; default value is visible */
+    overflow-y: auto;
+    overscroll-behavior-y: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -ms-overflow-style: scrollbar;
+}
+
+@tailwind utilities;
+
+@layer utilities {
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+}

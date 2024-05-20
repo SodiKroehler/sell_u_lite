@@ -1,0 +1,1 @@
+to migrate to prod after changes to schema: https://www.prisma.io/docs/guides/migrate/developing-with-prisma-migrate/add-prisma-migrate-to-a-project#baseline-your-production-environment
